@@ -1,9 +1,6 @@
 package com.anthony;
 
-import com.anthony.game.IGameObject;
-import com.anthony.game.LeftPlayer;
-import com.anthony.game.RightPlayer;
-import com.anthony.game.Ball;
+import com.anthony.game.*;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -19,21 +16,23 @@ import java.util.List;
  */
 public class Main extends ApplicationAdapter {
 
-    // GameVariables
+    // Game Variables
     public static float DELTA;
     public static Matrix4 CAM;
+    public static final short[] SCORE = {0, 0};
+    public static final float[][] PLAYERS = new float[2][];
 
     // Main config
+    public static FitViewport VIEWPORT;
     private OrthographicCamera camera;
-    private FitViewport viewport;
 
-    private final List<IGameObject> gameObjects = List.of(new LeftPlayer(), new RightPlayer(), new Ball());
+    private final List<IGameObject> gameObjects = List.of(new Backdrop(), new LeftPlayer(), new RightPlayer(), new Ball(), new Score());
 
     @Override
     public void create() {
         camera = new OrthographicCamera();
-        viewport = new FitViewport(1280, 720, camera);
-        viewport.apply();
+        VIEWPORT = new FitViewport(1280, 720, camera);
+        VIEWPORT.apply();
         camera.position.set(1280f / 2, 720f / 2, 0);
 
         for (IGameObject object : gameObjects) {
@@ -63,6 +62,6 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        VIEWPORT.update(width, height, true);
     }
 }

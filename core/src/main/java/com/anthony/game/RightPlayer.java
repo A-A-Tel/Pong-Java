@@ -7,26 +7,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import static com.anthony.Main.CAM;
 import static com.anthony.Main.DELTA;
+import static com.anthony.Main.PLAYERS;
+import static com.anthony.Main.VIEWPORT;
 
 public class RightPlayer implements IGameObject {
 
     private SpriteBatch batch;
     private Texture texture;
-    private final float[] properties = {0, 100f, 280f};
+    private final float[] properties = {-1f, -1f, 360f, 20f, 100f};
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         texture = new Texture("color.png");
+        properties[0] = VIEWPORT.getWorldWidth() - 120f;
+        properties[1] = VIEWPORT.getWorldHeight() / 2 - properties[4] / 2;
+        PLAYERS[1] = properties;
     }
 
     @Override
     public void render() {
-
-        if (properties[0] == 0 && Gdx.graphics != null) {
-            properties[0] = Gdx.graphics.getWidth() - 120f;
-        }
-
         movePlayer();
 
         batch.setProjectionMatrix(CAM);
@@ -34,8 +34,8 @@ public class RightPlayer implements IGameObject {
 
         batch.draw(texture,
             properties[0], properties[1],
-            20f, 100f);
-
+            properties[3], properties[4]
+        );
         batch.end();
     }
 
@@ -56,8 +56,8 @@ public class RightPlayer implements IGameObject {
 
         if (properties[1] < 0) {
             properties[1] = 0;
-        } else if (properties[1] > Gdx.graphics.getHeight() - 100f) {
-            properties[1] = Gdx.graphics.getHeight() - 100f;
+        } else if (properties[1] > VIEWPORT.getWorldHeight() - 100f) {
+            properties[1] = VIEWPORT.getWorldHeight() - 100f;
         }
     }
 }
